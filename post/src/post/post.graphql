@@ -1,0 +1,35 @@
+type Post @key(fields: "id") {
+  id: Int!
+  title: String!
+  body: String!
+  userId: Int!
+  user: User
+}
+
+input CreatePostInput {
+  title: String!
+  body: String!
+  userId: Int
+}
+
+input UpdatePostInput {
+  id: Int!
+  title: String!
+  body: String!
+}
+
+extend type User @key(fields: "id") {
+  id: Int! @external
+  posts: [Post]
+}
+
+type Query {
+  posts: [Post]!
+  post(id: Int!): Post
+}
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post
+}
